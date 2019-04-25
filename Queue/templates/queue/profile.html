@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Profile</title>
+</head>
+<body>
+    
+    <div id="root"></div>
+
+    {% load static %}
+    <script src="{% static "queue/js/profile/2.aff8ee87.chunk.js" %}"></script>
+    <script src="{% static "queue/js/profile/main.b840b875.chunk.js" %}"></script>
+    <script src="{% static "queue/js/profile/runtime~main.a8a9905a.js" %}"></script>
+
+    <script>
+        fetch(`{%url 'queue:get_user_services' user.username %}`)
+        .then((response)=>{return response.json()})
+        .then((response)=>{
+            for(var i=0;i<response.length;i++){
+                var services = profile.state.managedServices;
+                services.push({...response[i],'href':'{{request.scheme}}://{{request.get_host}}/servicemanager/'+response[i].id});
+                window.profile.setState({'managedServices':services});
+            }
+        })
+
+
+        window.profile.setState({username:`{{user.username}}`})
+
+
+        function hasSomeParentTheId(element, id) {
+            if (element.id == id) return true;
+            return element.parentNode && hasSomeParentTheId(element.parentNode, id);
+        }
+
+        document.addEventListener('click', function (event) {
+
+            // If the clicked element doesn't have the right selector, bail
+            if (event.target && (event.target.id== 'logoutBtn' || hasSomeParentTheId(event.target,'logoutBtn') )){
+
+                window.location = '/accounts/logout'    
+                // Don't follow the link
+                event.preventDefault();
+            }
+
+        }, false);
+    </script>
+
+    <style>
+        body{
+            margin:0px;
+            background-color:#DEDEDE;
+        }
+        #chgPwdBtn{
+            display:none;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Service Counter</title>
+</head>
+<body>
+    <div id="root"></div>
+    {% load static %}
+    <script src="{% static "queue/js/servicemanager/2.b1d5e3f9.chunk.js" %}"></script>
+    <script src="{% static "queue/js/servicemanager/main.125afa48.chunk.js" %}"></script>
+    <script src="{% static "queue/js/servicemanager/runtime~main.a8a9905a.js" %}"></script>
+
+    <script>
+
+        var connected = false;
+        var serviceID = {{ request.resolver_match.kwargs.id }};
+        window.ServiceManager.setState({...ServiceManager.state,serviceName:'{{service.service_name}}' })
+        var serviceSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/queue/services/');
+
+        serviceSocket.onopen = function(e){
+            connected = true;
+        }
+
+        fetch(`{% url 'queue:get1service' request.resolver_match.kwargs.id  %}`)
+        .then((response)=>{return response.json()})
+        .then((response)=>{
+            window.ServiceManager.setState({currentNumber:response.current_number});
+            window.ServiceManager.setState({loadingCN:false})
+        })
+
+        function hasSomeParentTheId(element, id) {
+            if (element.id == id) return true;
+            return element.parentNode && hasSomeParentTheId(element.parentNode, id);
+        }
+
+        document.addEventListener('click', function (event) {
+
+            // If the clicked element doesn't have the right selector, bail
+            if (event.target && (event.target.id== 'nextBtn' || hasSomeParentTheId(event.target,'nextBtn') )){
+
+                window.ServiceManager.setState({loadingNext:true});
+
+                if (connected){
+                    setTimeout(function(){
+                        serviceSocket.send(JSON.stringify({
+                            'type': 'changeNumber',
+                            'serviceID':serviceID,
+                            'value': window.ServiceManager.state.currentNumber+1
+                        }))
+                    },2000)
+                }
+            }else if (event.target && (event.target.id== 'prevBtn' || hasSomeParentTheId(event.target,'prevBtn') )){
+
+                window.ServiceManager.setState({loadingPrev:true});
+
+                if (connected){
+                    setTimeout(function(){
+                        serviceSocket.send(JSON.stringify({
+                            'type': 'changeNumber',
+                            'serviceID':serviceID,
+                            'value': window.ServiceManager.state.currentNumber-1
+                        }))
+                    },2000)
+                }
+
+            }else if (event.target && (event.target.id== 'backBtn' || hasSomeParentTheId(event.target,'backBtn') )){
+                window.location = '{% url "queue:profile" %}'
+            }else{
+                return;
+            }
+
+            // Don't follow the link
+            event.preventDefault();
+
+        }, false);
+
+
+        serviceSocket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            if (data.serviceID == serviceID)
+                {
+                    ServiceManager.setState({loadingNext:false,loadingPrev:false,currentNumber:data.value})
+                }
+        };
+
+    </script>
+
+
+    <style>
+
+    body{
+        background-color:rgb(132, 132, 132);
+        padding:5px;
+    }
+    #root{
+        height:100%;
+        width:100%;
+    }
+
+    </style>
+
+
+</body>
+</html>

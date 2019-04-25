@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Homepage</title>
+</head>
+<body>
+    {% load static %}
+    <div id="root"></div>
+    <link rel="stylesheet" href="{% static "queue/css/main.7511222e.chunk.css" %}">
+    <script src="{% static "queue/js/homepage/2.57bdb498.chunk.js" %}"></script>
+    <script src="{% static "queue/js/homepage/main.b60fd538.chunk.js" %}"></script>
+    <script src="{% static "queue/js/homepage/runtime~main.a8a9905a.js" %}"></script>
+    <script src="{% static "queue/js/homepage/homepage.js" %}"></script>
+
+
+    <style>
+
+    body{
+        height:100%;
+        width:100%;
+        margin:0px;
+        background-color:rgb(132, 132, 132)
+    }
+    #root{
+        height:100%;
+        width:100%;
+    }
+
+    </style>
+
+
+    <script>
+        
+        function connectSocket(){
+            var serviceSocket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/queue/services/');
+
+            serviceSocket.onmessage = function(e) {
+                var data = JSON.parse(e.data);
+                if (data.type=='changeNumber'){
+                    for(var i =0;i<homeApp.state.services.length;i++){
+                        if (data.serviceID == homeApp.state.services[i].serviceID){
+                            var newServicesState = homeApp.state.services.map((service)=>{
+                                if (service.serviceID == data.serviceID){
+                                    return {...service,currentNumber:data.value}
+                                }else{
+                                    return service
+                                }
+                            })
+
+                            homeApp.setState({services:newServicesState});
+                        }
+                    }
+                }
+            };
+
+            serviceSocket.onclose = function(e) {
+                connectSocket();
+            };
+        }
+
+        connectSocket();
+
+        {% comment %} serviceSocket.onopen = function(e){
+            console.log('websocket connection opened!')
+            serviceSocket.send(JSON.stringify({
+                'message': 'test'
+            }));
+        } {% endcomment %}
+    </script>
+</body>
+</html>
