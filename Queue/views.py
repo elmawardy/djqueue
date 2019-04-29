@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
 from django.forms.models import model_to_dict
-from .models import Service
+from .models import Service, Settings
 
 
 def index(request):
@@ -34,6 +34,11 @@ def get_services(request):
     """ Returns a json of all Services basic info (Name & Current Number)
     """
     return HttpResponse(json.dumps(list(Service.get_services())))
+
+def get_news(request):
+    """ returns the news of the Settings table 1st row
+    """
+    return HttpResponse(Settings.objects.first().news)
 
 def servicemanager(request, id):
     """ returns service counter page (reactjs app)

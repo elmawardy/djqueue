@@ -12,5 +12,6 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('login/', views.login, name='login'),
     path('get_services/', views.get_services, name='get_services'),
+    path('get_news/', views.get_news, name='get_news'),
     path('get_user_services/<slug:username>', views.get_user_services, name='get_user_services')
 ]

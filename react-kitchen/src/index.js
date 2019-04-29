@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './ServiceManager.js'
+import App from './HomePage.js'
 
 // class Index extends React.Component
 // {
@@ -12,4 +12,4 @@ import App from './ServiceManager.js'
 // }
 
 
-ReactDOM.render( <App ref={(App) => {window.ServiceManager = App}} />, document.getElementById('root') );
+ReactDOM.render( <App ref={(App) => {window.homeApp = App}} />, document.getElementById('root') );

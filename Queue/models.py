@@ -34,6 +34,15 @@ class Service(models.Model):
         services = Service.objects.filter(managers__username=username).extra(select={'currentNumber' : 'current_number'}).values('service_name', 'currentNumber', 'id')
         return services
 
+
+class Settings(models.Model):
+    """ Settings for homepage
+    """
+    news = models.TextField()
+    class Meta:
+        verbose_name = 'Settings'
+        verbose_name_plural = 'Settings'
+
 # class ServiceManagersFilter(admin.SimpleListFilter):
 #     title = "Managers"
 #     parameter_name = 'get_managers'

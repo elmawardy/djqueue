@@ -1,13 +1,24 @@
 # djQueue
 Real time queue system built with Django & Reactjs
 
+<img src="https://mustedueg-my.sharepoint.com/personal/amr_elmawardy_must_edu/Documents/github/djqueue1.PNG"
+     alt="Homepage+ServiceManager"
+     style="float: left; margin-right: 10px;" />
+<img src="https://mustedueg-my.sharepoint.com/personal/amr_elmawardy_must_edu/Documents/github/djqueue0.PNG"
+     alt="Profile"
+     style="float: left; margin-right: 10px;" />
+
+
+#
+
+
 # **Installation Guide**
 In this section we will walk through how to install the djqueue project with **PostgreSQL** DB and **Python 3.7**, you can for sure install it on any other DB that you prefer with django.
 
 
 ## Installation on Windows 
 
-> **Note** : commands that are prefixed with '>' are meant to be run in **cmd.exe** and commands that are prefixed with '#' are meant to run inside the **psql** shell.
+> **Note** : commands that are prefixed with '>' are meant to run in **cmd.exe** and commands that are prefixed with '#' are meant to run inside the **psql** shell.
 
 - Install the Database (PostgreSQL)
     - Download https://www.postgresql.org/download/windows/ 
@@ -23,7 +34,7 @@ In this section we will walk through how to install the djqueue project with **P
 - Install Git on windows if you don't have git installed yet
     - https://www.atlassian.com/git/tutorials/install-git#windows 
 - Clone the project into your desired directory by running the following in cmd.exe :
-    - git clone https://github.com/elmawardy/djqueue.git 
+    - \> git clone https://github.com/elmawardy/djqueue.git 
 - Configure the **database password**
     - inside **Djqueue/settings.py** inside the DATABASE object change 'PASSWORD' value to your database password that we've saved earlier
 - Install Python 3.7
