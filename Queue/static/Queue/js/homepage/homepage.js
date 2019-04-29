@@ -8,6 +8,15 @@ fetch('/get_services')
     })
 })
 
+fetch('/get_news')
+.then((response)=>{ return response.text() })
+.then((response)=>{
+    // displayCards(response,0)
+    homeApp.setState({news:response})
+})
+
+
+
 // function displayCards(response,index) {
 //     homeApp.setState({services:[...homeApp.state.services,
 //     {service_name:response[index].service_name,currentNumber:response[index].current_number}]})

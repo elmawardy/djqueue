@@ -45,9 +45,15 @@ export default class ServiceCard extends React.Component{
             height: this.props.requestedHeight || 'auto'
         }
         let cardNameStyles = {
-            lineHeight: '50px',
-            fontSize: this.props.service_name.length>10 ? '40px' : '55px',
+            lineHeight: (70*(this.props.requestedHeight * 55 / 144 )/100)+ 'px',
+            fontSize: this.props.service_name.length>10 ? '40px' : this.props.requestedHeight * 55 / 144 + 'px',
         }
+
+        let currentNumberStyle = {
+            fontSize:this.props.requestedHeight * 95 / 144 + 'px',
+            lineHeight:(70*(this.props.requestedHeight * 95 / 144 )/100)+ 'px',
+            color:'rgb(3, 138, 136)'
+        };
 
         return (
             <Grow in={true}>
@@ -55,7 +61,7 @@ export default class ServiceCard extends React.Component{
                     <CardContent className="djQ_serviceCard">
                         {
                             this.props.currentNumber > 0 ? 
-                            <p ref={p => this.myElement = p} className="djQ_serviceCurrentNumber" style={{color:'rgb(3, 138, 136)'}}>{this.props.currentNumber}</p>
+                            <p ref={p => this.myElement = p} className="djQ_serviceCurrentNumber" style={currentNumberStyle}>{this.props.currentNumber}</p>
                             :<img  alt="Remy Sharp" style={{height:'74px'}} src="static/media/logo0.jpg"  />
                         }
                         <Divider />
