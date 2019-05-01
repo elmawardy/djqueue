@@ -1,0 +1,9 @@
+[
+{
+    "model": "Queue.settings",
+    "pk": 1,
+    "fields": {
+        "news": "No news is good news ! , but you can have better news :)"
+    }
+}
+]
