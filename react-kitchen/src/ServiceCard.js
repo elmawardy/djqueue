@@ -22,8 +22,11 @@ export default class ServiceCard extends React.Component{
     componentWillReceiveProps(nextProps) {
         // You don't have to do this check first, but it can help prevent an unneeded render
         if (this.props.currentNumber!==nextProps.currentNumber){
-            var audio = new Audio('/static/media/computer_bell.wav');
-            audio.play();
+
+            if (nextProps.currentNumber!==0){
+                var audio = new Audio('/static/media/computer_bell.wav');
+                audio.play();
+            }
 
             if (this.myElement!=null){
 
