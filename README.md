@@ -1,22 +1,24 @@
 # djQueue
 Real time queue system built with Django & Reactjs
 
-<img src="https://mustedueg-my.sharepoint.com/personal/amr_elmawardy_must_edu/Documents/github/djqueue1.PNG"
+<img src="https://i.ibb.co/t2r0MMM/djqueue1.png"
      alt="Homepage+ServiceManager"
      style="float: left; margin-right: 10px;" />
-<img src="https://mustedueg-my.sharepoint.com/personal/amr_elmawardy_must_edu/Documents/github/djqueue0.PNG"
+
+<img src="https://i.ibb.co/JnfnwKJ/djqueue0.png"
      alt="Profile"
      style="float: left; margin-right: 10px;" />
 
 
-#
+.  
+.
+
 
 
 # **Installation Guide**
 In this section we will walk through how to install the djqueue project with **PostgreSQL** DB and **Python 3.7**, you can for sure install it on any other DB that you prefer with django.
 
-
-## Installation on Windows 
+## Installation on Windows
 
 > **Note** : commands that are prefixed with '>' are meant to run in **cmd.exe** and commands that are prefixed with '#' are meant to run inside the **psql** shell.
 
@@ -58,6 +60,7 @@ In this section we will walk through how to install the djqueue project with **P
 
     - \> python manage.py migrate
     - \> python manage.py createsuperuser
+    - \> python manage.py loaddata Queue/fixtures/settings_data.json --app Queue.settings
     - \> python manage.py runserver 
 
 

@@ -11,8 +11,8 @@
     <div id="root"></div>
 
     {% load static %}
-    <script src="{% static "queue/js/profile/2.aff8ee87.chunk.js" %}"></script>
-    <script src="{% static "queue/js/profile/main.b840b875.chunk.js" %}"></script>
+    <script src="{% static "queue/js/profile/2.56433392.chunk.js" %}"></script>
+    <script src="{% static "queue/js/profile/main.4dbbc257.chunk.js" %}"></script>
     <script src="{% static "queue/js/profile/runtime~main.a8a9905a.js" %}"></script>
 
     <script>
@@ -44,8 +44,58 @@
                 // Don't follow the link
                 event.preventDefault();
             }
+            if (event.target && (event.target.id== 'resetYesBtn' || hasSomeParentTheId(event.target,'resetYesBtn') )){
+                window.profile.setState({resettingCard:true})
+                 setTimeout(function(){
+                     serviceSocket.send(JSON.stringify({
+                            'type': 'changeNumber',
+                            'serviceID':window.profile.state.toBresetCard.serviceID,
+                            'value': 0
+                        }))
+                 },1000)
+            }
 
         }, false);
+
+
+        var serviceSocket = null;
+        function connectSocket(){
+            serviceSocket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/queue/services/');
+
+
+            // changing card number based on websocket message
+            serviceSocket.onmessage = function(e) {
+                var data = JSON.parse(e.data);
+                if (data.type=='changeNumber'){
+
+                    if (profile.state.toBresetCard != null)
+                    if (data.serviceID == profile.state.toBresetCard.serviceID)
+                        profile.setState({resettingCard:false,resetModal:false})
+
+                    for(var i =0;i<profile.state.managedServices.length;i++){
+                        if (data.serviceID == profile.state.managedServices[i].id){
+                            var newServicesState = profile.state.managedServices.map((service)=>{
+                                if (service.id == data.serviceID){
+                                    return {...service,currentNumber:data.value}
+                                }else{
+                                    return service
+                                }
+                            })
+
+                            profile.setState({managedServices:newServicesState});
+                        }
+                    }
+                }
+            };
+            serviceSocket.onclose = function(e) {
+                connectSocket();
+            };
+        }
+        connectSocket();
+
+
     </script>
 
     <style>
