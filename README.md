@@ -5,7 +5,7 @@ Real time queue system built with Django & Reactjs
      alt="Homepage+ServiceManager"
      style="float: left; margin-right: 10px;" />
 
-<img src="https://i.ibb.co/JnfnwKJ/djqueue0.png"
+<img src="https://i.ibb.co/87VTxm3/djqueue2.png"
      alt="Profile"
      style="float: left; margin-right: 10px;" />
 
@@ -41,7 +41,7 @@ In this section we will walk through how to install the djqueue project with **P
     - inside **Djqueue/settings.py** inside the DATABASE object change 'PASSWORD' value to your database password that we've saved earlier
 - Install Python 3.7
     - Download 32/64 bit based on your environment from : https://www.python.org/downloads/windows/
-    - Add Python to your **environment variables**
+    - Add Python to your **environment variables** in **PATH** variable
         - Default locations :
             - C:\Users\Administrator\AppData\Local\Programs\Python\Python37 
             - C:\Users\Administrator\AppData\Local\Programs\Python\Python37\Scripts 
@@ -62,7 +62,11 @@ In this section we will walk through how to install the djqueue project with **P
     - \> python manage.py createsuperuser
     - \> python manage.py loaddata Queue/fixtures/settings_data.json --app Queue.settings
     - \> python manage.py runserver 
+        - if you want to run the website for external users on specific ip and port run this
+            - \> python manage.py runserver \<ip>:\<port>
+
+            make sure to add the ip in the **ALLOWED_HOSTS** section in settings.py like so : ALLOWED_HOSTS = ['192.168.1.2']
 
 
 
-> Then finally you can access the project from your browser at http://localhost:8000
+> Then finally you can access the project from your browser at http://localhost:8000 , or on your desired ip:port
